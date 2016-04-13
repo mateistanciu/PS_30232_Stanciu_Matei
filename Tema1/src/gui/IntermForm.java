@@ -10,16 +10,16 @@ import javax.swing.JPanel;
 public class IntermForm extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	private JButton Accounts=new JButton("Account Management");
-	private JButton Shows=new JButton("Shows Management");
-	private JPanel MainPanel = new JPanel();
+	private JButton accounts=new JButton("Account Manager");
+	private JButton shows=new JButton("Shows Manager");
+	private JPanel mainPanel = new JPanel();
 	public IntermForm()
 	{
 		super("Choose an Option");
 		setSize(400,200);
-		Accounts.setBounds(80, 20, 250, 30);
-		MainPanel.add(Accounts);
-		Accounts.addActionListener(new ActionListener(){
+		accounts.setBounds(80, 20, 250, 30);
+		mainPanel.add(accounts);
+		accounts.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -30,14 +30,12 @@ public class IntermForm extends JFrame{
 			}
 			
 		});
-		Shows.setBounds(80, 80, 250, 30);
-		MainPanel.add(Shows);
-		Shows.addActionListener(new ActionListener(){
+		shows.setBounds(80, 80, 250, 30);
+		mainPanel.add(shows);
+		shows.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
 				AdminFormShows I = new AdminFormShows();
 				I.setVisible(true);
 				setVisible(false);
@@ -46,9 +44,8 @@ public class IntermForm extends JFrame{
 			
 		});
 		
-		MainPanel.setLayout(null);
-		
-		this.add(MainPanel);
+		mainPanel.setLayout(null);
+		this.add(mainPanel);
 		this.setResizable(false);	
 		this.setLocation(400, 100);
 					

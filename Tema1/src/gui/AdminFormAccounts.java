@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import business.AccountManagement;
+import business.AccountManager;
 
 
 
 public class AdminFormAccounts extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	private JButton CreateAccount=new JButton("Create Account");
+	private JButton createAccount=new JButton("Create Account");
 	
 	private JComboBox<String> userType=new JComboBox<String> (); 
 	
@@ -34,7 +34,7 @@ public class AdminFormAccounts extends JFrame{
 	private JPanel panel = new JPanel();
 	public AdminFormAccounts()
 	{
-		super("Create Account");
+		super("Account Manager");
 		setSize(400,450);
 		
 		
@@ -60,23 +60,25 @@ public class AdminFormAccounts extends JFrame{
 		
 		typeLabel.setBounds(20, 200, 200, 20);
 		panel.add(typeLabel);
-		CreateAccount.setBounds(100, 250, 200, 30);
-		panel.add(CreateAccount);
+		createAccount.setBounds(100, 250, 200, 30);
+		panel.add(createAccount);
 		
-		CreateAccount.addActionListener(new ActionListener(){
+		createAccount.addActionListener(new ActionListener(){
 
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 				
-					String Name=nameText.getText();
+					String name=nameText.getText();
 					String username=userText.getText();
 					String pass=passText.getText();
 					String type = (String) userType.getSelectedItem();
-					AccountManagement acc = new AccountManagement();
-		
-						acc.addAccount(Name, username, pass, type);
+					AccountManager acc = new AccountManager();
+					System.out.println("inainte de adaugare" + pass);
+					pass = acc.cryptWithMD5(pass);
+					acc.addAccount(name, username, pass, type);
+					System.out.println("dupa adaugare " +  pass);
 					nameText.setText("");
 					userText.setText("");
 					passText.setText("");

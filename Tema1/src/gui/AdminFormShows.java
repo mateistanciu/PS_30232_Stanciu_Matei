@@ -2,11 +2,16 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 import Models.Show;
-import business.ShowManagement;
+import business.ShowManager;
 
 
 
@@ -25,6 +30,7 @@ public class AdminFormShows extends JFrame{
 	private JButton seeShows=new JButton("See Shows");
 	private JButton deleteShow=new JButton("Delete Show");
 	private JButton updateList=new JButton("Update");
+	private JButton updateShows=new JButton("Update Shows");
 	
 	private JComboBox<String> showsList=new JComboBox<String> (); 
 	
@@ -47,18 +53,19 @@ public class AdminFormShows extends JFrame{
 	private JTextField distributionText = new JTextField();
 	private JTextField premiereText = new JTextField();
 	private JTextField ticketText = new JTextField();
-
+	final static String DATE_FORMAT = "yyy-mm-dd";
 	
 	
 	public AdminFormShows()
 	{
-		super("Shows Management");
+		super("Shows Manageer");
+		
 		setSize(1300,600);
 		
 /////////////////////Add Show Panel/////////////////////
 		
 		addPanel.setLayout(null);
-		addPanel.setBounds(10, 10, 320, 360);
+		addPanel.setBounds(10, 10, 320, 400);
 		addPanel.setBorder(BorderFactory.createTitledBorder("Add Show"));
 		
 		showTitle.setBounds(20, 50, 70, 30);
@@ -88,18 +95,76 @@ public class AdminFormShows extends JFrame{
 		
 		addShow.setBounds(60, 300, 150, 30);
 		addPanel.add(addShow);
+		
 		addShow.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ShowManagement show = new ShowManagement();	
-					show.AddShow((String)nameText.getText(), (String)directedText.getText(), (String)distributionText.getText(),
-							premiereText.getText(),Integer.parseInt(ticketText.getText()));
+				try{
+					
+				 DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		            df.setLenient(false);
+		            df.parse((String)premiereText.getText());
+				
+				ShowManager show = new ShowManager();
+					show.addShow((String)nameText.getText(), (String)directedText.getText(), (String)distributionText.getText(),
+					
+					premiereText.getText(),Integer.parseInt(ticketText.getText()));
 					nameText.setText("");
 					directedText.setText("");
 					distributionText.setText("");
 					premiereText.setText("");
 					ticketText.setText("");
+				
+				
+				} catch (ParseException pe) {
+					premiereText.setText("");
+					JOptionPane
+					.showMessageDialog(
+							null,
+							"Datetime format: yyyy-mm-dd",
+							"", JOptionPane.ERROR_MESSAGE);
+				 }
+				
+				}
+		
+			
+		});
+/////////////////////Update Shows Panel/////////////////////
+		
+		updateShows.setBounds(60, 350, 150, 30);
+		addPanel.add(updateShows);
+		updateShows.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try{
+					
+					 DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+			            df.setLenient(false);
+			            df.parse((String)premiereText.getText());
+					
+					ShowManager show = new ShowManager();
+						show.updateShows((String)nameText.getText(), (String)directedText.getText(), (String)distributionText.getText(),
+						premiereText.getText(),Integer.parseInt(ticketText.getText()));
+						nameText.setText("");
+						directedText.setText("");
+						distributionText.setText("");
+						premiereText.setText("");
+						ticketText.setText("");
+					
+					
+					} catch (ParseException pe) {
+						premiereText.setText("");
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"Datetime format: yyyy-mm-dd",
+								"", JOptionPane.ERROR_MESSAGE);
+					 }
+					
+					
+				
 			}
 			
 		});
@@ -124,7 +189,7 @@ public class AdminFormShows extends JFrame{
 					table.getTableHeader().setReorderingAllowed(false);
 					table.getTableHeader().setResizingAllowed(false);
 					model.fireTableDataChanged();
-					ShowManagement sh = new ShowManagement();
+					ShowManager sh = new ShowManager();
 					for(Show temp:sh.seeShows()){	
 					model.addRow(new Object[]{temp.getShowTitle(), temp.getDirectedBy(),temp.getDistribution(),temp.getPremiereDate(),temp.getTicketsNumber()});
 					}
@@ -146,7 +211,7 @@ public class AdminFormShows extends JFrame{
 		updateList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				showsList.removeAllItems();
-				ShowManagement show = new ShowManagement();
+				ShowManager show = new ShowManager();
 				for(Show temp:show.getShowDao()){
 					
 					showsList.addItem(temp.getShowTitle());
@@ -155,7 +220,7 @@ public class AdminFormShows extends JFrame{
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						show.DeleteShow((String) showsList.getSelectedItem());
+						show.deleteShow((String) showsList.getSelectedItem());
 					}
 					
 				});

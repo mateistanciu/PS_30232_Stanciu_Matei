@@ -24,21 +24,24 @@ public Account(String name, String userName, String password, String userType){
 	public void setUserName(String userName){
 		this.userName=userName;
 	}
+	
 	public String getUserName(){
 		return userName;
 	}
+	
 	public void setPassword(String password){
 		this.password=password;
 	}
-	public String getPasswprd(){
+	
+	public String getPassword(){
 		return password;
 	}
+	
 	public void setUserType(String userType){
 		this.userType=userType;
 	}
+	
 	public String getUserType(){
 		return userType;
 	}
-	
-	
 }

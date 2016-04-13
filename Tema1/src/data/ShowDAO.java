@@ -93,19 +93,38 @@ public class ShowDAO {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 			st=con.createStatement();
-			String title=show.getShowTitle();
-			int ticketsNumber = show.getTicketsNumber();
+			String title = show.getShowTitle();
+			String directedBy=show.getDirectedBy();
+			String distribution = show.getDistribution();
+			String premiereDate=show.getPremiereDate();
+			int ticketsNumber=show.getTicketsNumber();
 			rs=st.executeQuery(" SELECT * FROM theatre.shows WHERE title='"+title+"' ; ");
-			int oldNumber,newNumber;
 			rs.next();
-			oldNumber=rs.getInt("ticketsNumber");
-			newNumber=oldNumber-ticketsNumber;
-			st.executeUpdate("Update theatre.shows SET TicketsNumber= "+ newNumber+" Where title ='"+title+"' ;");
+				st.executeUpdate("Update theatre.shows SET directedBy= '"+directedBy+"', distribution= '" + distribution+"', premiereDate = '"+premiereDate+"',"+"ticketsNumber = '"+ticketsNumber+"' Where title = '"+title+"';");
 			st.close();
 			rs.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			}
+		
+	}
+	public int getTicketsNumber(String title){
+		int ticketsNumber=0;
+		try{
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
+				st=con.createStatement();
+				rs=st.executeQuery(" SELECT * FROM theatre.shows WHERE title='"+title+"' ; ");
+				while(rs.next()){
+					ticketsNumber= rs.getInt("ticketsNumber");
+				}
+				
+				st.close();
+				rs.close();
+			}catch(Exception ex){
+			ex.printStackTrace();
+			}
+		return ticketsNumber;
 		
 	}
 	public int getShowId(String title){
