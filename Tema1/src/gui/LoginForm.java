@@ -29,9 +29,6 @@ public class LoginForm extends JFrame{
 	{
 		super("Login Window");
 		setSize(400,350);
-		
-		
-		
 		userName.setBounds(80, 100, 70, 30);
 		panel.add(userName);
 		userText.setBounds(150, 105, 150, 20);
@@ -63,14 +60,15 @@ public class LoginForm extends JFrame{
 						
 						AccountManager account = new AccountManager();
 						pass = account.cryptWithMD5(pass);
+						String check  = account.checkAccounts(user, pass);
 						try{
-							if (account.checkAccounts(user, pass).equals("admin")){
+							if (check.equals("admin")){
 								IntermForm I = new IntermForm();
 								account.cryptWithMD5(pass);
 								I.setVisible(true);
 								setVisible(false);
 							}
-							else if(account.checkAccounts(user, pass).equals("employee")){
+							else if(check.equals("employee")){
 								EmployeeForm I = new EmployeeForm();
 								I.setVisible(true);
 								setVisible(false);
@@ -86,15 +84,12 @@ public class LoginForm extends JFrame{
 						
 							}
 					
-	});
-			
-			       
-			    
+	});		    
 			forgotPassword.addActionListener(new ActionListener(){
 				
 				@SuppressWarnings("deprecation")
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent a) {
 					
 					String user = userText.getText();
 					String pass = passText.getText();
@@ -108,16 +103,20 @@ public class LoginForm extends JFrame{
 										"You must insert a valid username first",
 										"Update Error", JOptionPane.ERROR_MESSAGE);
 					      }
-			
-					    
+					      if(account.checkUser(user)){
+					    	  JOptionPane
+								.showMessageDialog(
+										null,
+										"Wrong username",
+										"Update Error", JOptionPane.ERROR_MESSAGE);
+					      }
 					      else {
-					pass=account.nextSessionId();
+					pass=account.forgotPassword(pass);
 					JOptionPane
 					.showMessageDialog(
 							null,
 							"Your password is "+pass,
 							"Password Update", JOptionPane.INFORMATION_MESSAGE);
-					pass = account.cryptWithMD5(pass);
 					account.updateAccounts(user, pass);
 					      } 
 					} catch(IllegalArgumentException e) {

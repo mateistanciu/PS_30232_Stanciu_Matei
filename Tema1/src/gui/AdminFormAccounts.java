@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -18,7 +19,7 @@ public class AdminFormAccounts extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JButton createAccount=new JButton("Create Account");
-	
+	private JButton back=new JButton("Back");
 	private JComboBox<String> userType=new JComboBox<String> (); 
 	
 	private JLabel name = new JLabel("name");
@@ -60,6 +61,7 @@ public class AdminFormAccounts extends JFrame{
 		
 		typeLabel.setBounds(20, 200, 200, 20);
 		panel.add(typeLabel);
+		
 		createAccount.setBounds(100, 250, 200, 30);
 		panel.add(createAccount);
 		
@@ -74,17 +76,36 @@ public class AdminFormAccounts extends JFrame{
 					String username=userText.getText();
 					String pass=passText.getText();
 					String type = (String) userType.getSelectedItem();
+					
 					AccountManager acc = new AccountManager();
-					System.out.println("inainte de adaugare" + pass);
-					pass = acc.cryptWithMD5(pass);
+					if(acc.checkUser(username)){
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"Username Already Exists",
+								"Account Error", JOptionPane.ERROR_MESSAGE);
+						
+					}
+					else{
 					acc.addAccount(name, username, pass, type);
-					System.out.println("dupa adaugare " +  pass);
 					nameText.setText("");
 					userText.setText("");
 					passText.setText("");
-				
+					}
 				}catch(Exception ex){
 					ex.printStackTrace();}
+			}
+			
+		});
+		back.setBounds(100, 300 , 200, 30);
+		panel.add(back);
+		back.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IntermForm form = new IntermForm();
+				form.setVisible(true);
+				setVisible(false);
 			}
 			
 		});

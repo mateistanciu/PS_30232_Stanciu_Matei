@@ -14,10 +14,18 @@ public class TicketDAO {
 		private Connection con;
 		private Statement st;
 		private ResultSet rs;
-		public void InsertTicket(Ticket ticket){
+		private String url	="jdbc:mysql://localhost:3306/theatre";
+		private String root = "root";
+		private String pass ="";
+		public TicketDAO(){
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
+				con = DriverManager.getConnection(url,root,pass);
+			   }catch(Exception ex){
+			ex.printStackTrace();}
+		}
+		public void InsertTicket(Ticket ticket){
+			try{
 				st = con.createStatement();
 				String show = ticket.getShow();
 				int row = ticket.getRow();
@@ -31,14 +39,8 @@ public class TicketDAO {
 		
 		public boolean checkTicket(String title, int row, int number){
 			try{
-				
-				Class.forName("com.mysql.jdbc.Driver");
-				
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st = con.createStatement();
-				
 				rs=st.executeQuery(" SELECT * FROM theatre.tickets where shows = '" + title + "';");
-			
 				while(rs.next())
 			{
 					if(rs.getInt("row") == row || rs.getInt("number") ==number)
@@ -51,19 +53,13 @@ public class TicketDAO {
 		}
 		public List<Show> getShows(){
 			ArrayList<Show>show = new ArrayList<Show>();
-				
 				try{
-					Class.forName("com.mysql.jdbc.Driver");
-					
-					con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 					st = con.createStatement();
 					rs = st.executeQuery("SELECT * FROM tickets");
 					while(rs.next()){
 						Show sh = new Show(rs.getString("shows"));
 						show.add(sh);
 					}
-					
-					
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -74,8 +70,6 @@ public class TicketDAO {
 		public List<Ticket> selectTicket(Ticket ticket){
 			ArrayList<Ticket> tic = new ArrayList<Ticket>();
 			try{
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st = con.createStatement();
 				String show = ticket.getShow();
 				rs=st.executeQuery("SELECT * from tickets WHERE shows = '"+ show +"';");
@@ -92,15 +86,11 @@ public class TicketDAO {
 			}
 		public void updateTicketsNumber(String title, int ticketsNumber){
 			try{
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st = con.createStatement();
 				st.executeUpdate("Update theatre.shows SET ticketsNumber= "+ticketsNumber+ " where title='"+ title +"';");
 				st.close();
 			}catch(Exception ex){
 				ex.printStackTrace();
 				}
-		}
-		
-		
+			}
 		}

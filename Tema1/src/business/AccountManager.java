@@ -19,8 +19,9 @@ public class AccountManager {
 	 private MessageDigest md;
 	 private SecureRandom random = new SecureRandom();
 
-	  public String nextSessionId() {
-	    return new BigInteger(25, random).toString(32);
+	  public String nextSessionId(String password) {
+		  password = new BigInteger(25, random).toString(32); 
+	    return password;
 	  }
 	  
 	   public String cryptWithMD5(String pass){
@@ -38,6 +39,7 @@ public class AccountManager {
 	    } catch (NoSuchAlgorithmException ex) {
 	        Logger.getLogger(AccountManager.class.getName()).log(Level.SEVERE, null, ex);
 	    }
+	    
 	        return null;
 	   }
 	   
@@ -58,11 +60,19 @@ public class AccountManager {
 	public void updateAccounts(String username, String password) {
 		
 		AccountDAO acc = new AccountDAO();
+		AccountManager cryptPassword = new AccountManager();
+	    password= cryptPassword.cryptWithMD5(password);
 		acc.updateAccount(username, password);
+	}
+	public String forgotPassword(String password){
+		AccountManager pass = new AccountManager();
+		return pass.nextSessionId(password);
 	}
 	
 	public void addAccount(String name, String userName, String password, String userType){
 		
+		AccountManager cryptPass = new AccountManager();
+	    password= cryptPass.cryptWithMD5(password);
 		Account acc = new Account(name,userName,password,userType);
 		AccountDAO account=new AccountDAO();
 		account.AddAccount(acc);

@@ -11,13 +11,14 @@ public class Show {
 	
 	public Show(String showTitle,String directedBy,String distribution,
 			String premiereDate,int ticketsNumber ){
-	;
+		
 		this.showTitle=showTitle;
 		this.directedBy=directedBy;
 		this.distribution=distribution;
 		this.premiereDate=premiereDate;
 		this.ticketsNumber =ticketsNumber;
 	}
+	
 	public Show(String title) {
 		this.showTitle=title;
 	}
@@ -32,24 +33,31 @@ public class Show {
 	public String getDirectedBy(){
 		return directedBy;
 	}
+	
 	public void setDirectedBy(String directedBy){
 		this.directedBy=directedBy;
 	}
+	
 	public String getDistribution(){
 		return distribution;	
 	}
+	
 	public void setDistribution(String distribution){
 		this.distribution=distribution;
 	}
+	
 	public String getPremiereDate(){
 		return premiereDate;
 	}
+	
 	public void setPremiereDate(String premiereDate){
 		this.premiereDate=premiereDate;
 	}
+	
 	public int getTicketsNumber(){
 		return ticketsNumber;
 	}
+	
 	public void setTicketsNumber(int ticketsNumber){
 		this.ticketsNumber=ticketsNumber;
 	}

@@ -15,13 +15,19 @@ public class ShowDAO {
 	private Connection con;
 	private Statement st;
 	private ResultSet rs;
-	
+	private String url	="jdbc:mysql://localhost:3306/theatre";
+	private String root = "root";
+	private String pass ="";
+	public ShowDAO(){
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(url,root,pass);
+		   }catch(Exception ex){
+		ex.printStackTrace();}
+	}
 	public List<Show> SeeShows(){
 		ArrayList<Show> show = new ArrayList<Show>();
-		try{
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre", "root", "");
-			
+		try{	
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT * FROM shows");
 			while(rs.next()){
@@ -43,9 +49,6 @@ public class ShowDAO {
 		ArrayList<Show> show = new ArrayList<Show>();
 			
 			try{
-				Class.forName("com.mysql.jdbc.Driver");
-				
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st = con.createStatement();
 				rs = st.executeQuery("SELECT * FROM shows");
 				while(rs.next()){
@@ -62,8 +65,6 @@ public class ShowDAO {
 		}
 	public void insertShow(Show show){
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 			st = con.createStatement();
 			String title = show.getShowTitle();
 			String directedBy=show.getDirectedBy();
@@ -78,9 +79,6 @@ public class ShowDAO {
 	}
 	public void deleteShow(Show show){
 		try{
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");	
 			st = con.createStatement();
 			String title =  show.getShowTitle();
 			st.executeUpdate("delete FROM shows WHERE title ='"+ title +"';" );
@@ -90,8 +88,6 @@ public class ShowDAO {
 	}
 	public void updateShow(Show show){
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 			st=con.createStatement();
 			String title = show.getShowTitle();
 			String directedBy=show.getDirectedBy();
@@ -111,8 +107,6 @@ public class ShowDAO {
 	public int getTicketsNumber(String title){
 		int ticketsNumber=0;
 		try{
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st=con.createStatement();
 				rs=st.executeQuery(" SELECT * FROM theatre.shows WHERE title='"+title+"' ; ");
 				while(rs.next()){
@@ -130,8 +124,6 @@ public class ShowDAO {
 	public int getShowId(String title){
 		int id=0;
 		try{
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/theatre","root","");
 				st=con.createStatement();
 				rs=st.executeQuery(" SELECT * FROM theatre.shows WHERE title='"+title+"' ; ");
 				while(rs.next()){

@@ -31,6 +31,7 @@ public class AdminFormShows extends JFrame{
 	private JButton deleteShow=new JButton("Delete Show");
 	private JButton updateList=new JButton("Update");
 	private JButton updateShows=new JButton("Update Shows");
+	private JButton back=new JButton("Back");
 	
 	private JComboBox<String> showsList=new JComboBox<String> (); 
 	
@@ -127,7 +128,17 @@ public class AdminFormShows extends JFrame{
 				 }
 				
 				}
-		
+		});
+		back.setBounds(10, 450, 100, 30);
+		mainPanel.add(back);
+		back.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IntermForm form = new IntermForm();
+				form.setVisible(true);
+				setVisible(false);
+			}
 			
 		});
 /////////////////////Update Shows Panel/////////////////////
